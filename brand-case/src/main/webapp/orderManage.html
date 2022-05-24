@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单中心</title>
+    <style>
+        .el-table .warning-row {
+            background: #fdf5e6;
+        }
+
+        .el-table .success-row {
+            background: #f0f9eb;
+        }
+
+        .el-menu-vertical-demo:not(.el-menu--collapse) {
+            width: 200px;
+            min-height: 400px;
+            margin: 0px;
+        }
+        .el-header.el-header{
+            padding: 0px 0px;
+        }
+
+        body{
+            background-image:url("imgs/bgconsumer.jpg");
+            background-color:#cccccc;
+        }
+
+    </style>
+
+
+</head>
+<body>
+
+<div id="app">
+    <el-container>
+        <!--导航栏-->
+        <div class="line"></div>
+        <!--纵向容器-->
+        <div>
+            <!--水平导航栏-->
+            <el-header >
+                <el-menu
+                        :default-active="activeIndex"
+                        class="el-menu-demo"
+                        mode="horizontal"
+                        @select="handleSelect"
+                        background-color="#545c64"
+                        text-color="#fff"
+                        style="width: 100%"
+
+                        active-text-color="#ffd04b">
+
+                    <el-menu-item index="1"><a href="consumer.html">处理中心</a></el-menu-item>
+
+                    <el-menu-item index="2" >消息中心</el-menu-item>
+                    <el-menu-item index="3"><a href="orderManage.html">订单管理</a></el-menu-item>
+
+                </el-menu>
+            </el-header>
+
+                <!--购物车-->
+                <h3 style="padding-left: 700px">购物车</h3>
+                <template>
+                    <el-table
+                            :data="tableData1"
+                            style="width: 900px;margin-left: 265px;padding-left: 5px"
+                            :default-sort = "{prop: 'date', order: 'descending'}"
+                            align="center"
+                            className="metatable"
+                            :model="orderManage"
+                            @selection-change="handleSelectionChange"
+                    >
+
+                        <el-table-column
+                                type="selection"
+                                width="55">
+                        </el-table-column>
+                        <el-table-column
+                                prop="produceBrandOrderName"
+                                v-model="orderManage.produceBrandOrderName"
+                                label="品牌名称"
+                                align:center
+                                sortable
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="companyOrderName"
+                                v-model="orderManage.companyOrderName"
+                                label="企业名称"
+                                align:center
+                                sortable
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="ordered"
+                                label="订单号"
+                                v-model="orderManage.ordered"
+                                align:center
+                                sortable
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="price"
+                                label="售价"
+                                v-model="orderManage.price"
+                                align:center
+                                sortable
+                                width="180"
+                        ></el-table-column>
+                    </el-table>
+
+                </template>
+                <div class="el-row" style="margin-left: 1090px">
+                <el-row >
+                    <el-button type="primary" round @click="changeStatus">结算</el-button>
+                </el-row>
+                </div>
+                <!--订单-->
+                <h3 style="padding-left: 698px">售后中心</h3>
+                <template>
+                    <el-table
+                            :data="tableData2"
+                            style="width: 1020px;margin-left: 210px;padding-left: 0px;box-shadow: 7px 7px 17px rgba(52, 56, 66, 0)"
+                            :default-sort = "{prop: 'date', order: 'descending'}"
+                            align="center"
+                            :model="orderManage"
+                            v-model="orderManage"
+                    >
+
+                        <el-table-column
+                                type="selection"
+                                width="55">
+                        </el-table-column>
+                        <el-table-column
+                                prop="produceBrandOrderName"
+                                label="品牌名称"
+                                v-model="orderManage.produceBrandOrderName"
+                                sortable
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="companyOrderName"
+                                v-model="orderManage.companyOrderName"
+                                label="企业名称"
+                                sortable
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="ordered"
+                                label="订单号"
+                                v-model="orderManage.ordered"
+                                sortable
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="price"
+                                label="购买价格"
+                                v-model="orderManage.price"
+                                sortable
+                                width="180"
+                        ></el-table-column>
+                        <!--评价A-->
+                        <el-table-column
+                                label="操作"
+                                width="100"
+
+                        >
+                            <template slot-scope="scope" >
+                                <el-row>
+                                    <el-button type="text" size="smell" @click="addAProduce(scope.row);dialogAVisible = true">评价A</el-button>
+                                </el-row>
+                            </template>
+                        </el-table-column>
+                        <!--评价C-->
+                        <el-table-column
+                                label="操作"
+                                width="100"
+                        >
+                            <template slot-scope="scope">
+                                <el-row>
+                                    <el-button type="text" size="smell" @click="addCProduce(scope.row);dialogCVisible = true">评价C</el-button>
+                                </el-row>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+                <!--写反馈-->
+                <el-dialog
+                    title="评价"
+                    :visible.sync="dialogAVisible"
+                    width="30%"
+                >
+                    <el-form ref="form" :model="orderManage" label-width="80px">
+                        <el-form-item label="评价">
+                            <el-input v-model="orderManage.descriptionA"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="评分">
+                            <template>
+                                <el-select v-model="orderManage.starA" placeholder="请选择">
+                                   <el-option
+                                            v-for="item in options"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+
+                                </el-select>
+                            </template>
+                        </el-form-item>
+
+                        <!--提交取消按钮-->
+                        <el-form-item>
+                            <el-button type="primary" @click="updateAProduce">提交</el-button>
+                            <el-button @click="dialogAVisible = false">取消</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-dialog>
+
+            <el-dialog
+                    title="评价"
+                    :visible.sync="dialogCVisible"
+                    width="30%"
+            >
+                <el-form ref="form" :model="orderManage" label-width="80px">
+                    <el-form-item label="评价">
+                        <el-input v-model="orderManage.descriptionC"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="评分">
+                        <template>
+                            <el-select v-model="orderManage.starC" placeholder="请选择">
+                                <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+
+                            </el-select>
+                        </template>
+                    </el-form-item>
+
+                    <!--提交取消按钮-->
+                    <el-form-item>
+                        <el-button type="primary" @click="updateCProduce">提交</el-button>
+                        <el-button @click="dialogCVisible = false">取消</el-button>
+                    </el-form-item>
+                </el-form>
+
+            </el-dialog>
+
+            </el-main>
+        </div>
+        </el-container>
+    </el-container>
+</div>
+
+
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+
+<script src="js/axios-0.18.0.js"></script>
+
+<script>
+
+
+    new Vue({
+        el: "#app",
+
+        mounted(){
+            this.selectAll();
+        },
+        methods: {
+            handleSelect(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            //把一行数据暂存
+            addAProduce(val) {
+                this.addA=val;
+            },
+            //暂存的数据和表单数据并起来并提交
+            updateAProduce(){
+
+                this.addA.descriptionA=this.orderManage.descriptionA;
+                this.addA.starA=this.orderManage.starA;
+
+                var _this=this;
+                axios({
+                    method:"post",
+                    url:"http://localhost:8080/brand-case/produceA/updateById",
+                    data:this.addA,
+                }).then(function (resp)
+                {
+                        _this.dialogAVisible = false;
+                    // 弹出消息提示
+                    _this.$message({
+                        message: 'A产品成功评价',
+                        type: 'success'
+                    });
+                })
+            },
+
+
+            //把一行数据暂存
+            addCProduce(val) {
+                this.addC=val;
+            },
+            //暂存的数据和表单数据并起来并提交
+            updateCProduce(){
+
+                this.addC.descriptionC=this.orderManage.descriptionC;
+                this.addC.starC=this.orderManage.starC;
+
+                var _this=this;
+                axios({
+                    method:"post",
+                    url:"http://localhost:8080/brand-case/produceA/returnCID",
+                    data:this.addC,
+                }).then(function (resp)
+                {
+                    _this.addC.id=resp.data;
+
+                    axios({
+                        method:"post",
+                        url:"http://localhost:8080/brand-case/produceC/updateById",
+                        data:_this.addC,
+                    }).then(function (resp)
+                    {
+                        _this.dialogCVisible = false;
+
+                        // 弹出消息提示
+                        _this.$message({
+                            message: 'C产品成功评价',
+                            type: 'success'
+                        });
+                    })
+                })
+            },
+
+            handleSelectionChange(val){
+                this.multipleSelection = val;//选中数据放在
+            },
+            changeStatus(){
+                //console.log(this.multipleSelection);
+                for(let i=0;i<this.multipleSelection.length;i++){
+                    this.selectedIds[i]=this.multipleSelection[i].id;
+                }
+                //console.log(this.selectedIds);
+                var _this=this;
+                axios({
+                    method:"post",
+                    url:"http://localhost:8080/brand-case/orderManage/deleteByIds",
+                    data:this.selectedIds,
+                }).then(function (resp)
+                {
+                    if(resp.data=='success')
+                    {
+                        _this.selectAll();
+                        _this.$message({
+                            message:'结算成功',
+                            type:'success'
+                        })
+                    }
+
+                })
+
+
+            },
+            selectAll(){
+                var _this = this;
+                axios({
+                    method:"post",
+                    url:"http://localhost:8080/brand-case/orderManage/selectAll",
+                    data:this.orderManage,
+                }).then(resp =>{
+                    var arr1=[],arr2=[];
+                    for(let i=0;i<resp.data.rows.length;i++){
+
+                        // //设置表格数据
+                        if(resp.data.rows[i].status==0)
+                            arr1.push(resp.data.rows[i]);
+
+                        // //设置总记录数
+                        else
+                            arr2.push(resp.data.rows[i]);
+
+                    }
+                    _this.tableData1 = arr1; // {rows:[],totalCount:100}
+                    _this.tableData2 = arr2; // {rows:[],totalCount:100}
+                })
+            }
+        },
+        data(){
+            return{
+            // 水平导航栏
+            activeIndex:'1',
+            //评分弹框
+            dialogAVisible:false,
+            dialogCVisible:false,
+            // 复选框选中数据集合
+            multipleSelection: [],
+            // 被选中的id数组
+            selectedIds:[],
+            //评价模型
+            orderManage:{
+                id:"",
+                produceBrandOrderName:"",
+                companyOrderName:"",
+                ordered:"",
+                price:"",
+                starA:"",
+                descriptionA:"",
+                starC:"",
+                descriptionC:"",
+                status:""
+                },
+            //订单组件模型
+            addA:{
+                id:"",
+                produceBrandOrderName:"",
+                companyOrderName:"",
+                ordered:"",
+                price:"",
+                starA:"",
+                descriptionA:"",
+                starC:"",
+                descriptionC:"",
+                status:""
+            },
+            addC:{
+                id:"",
+                produceBrandOrderName:"",
+                companyOrderName:"",
+                ordered:"",
+                price:"",
+                starA:"",
+                descriptionA:"",
+                starC:"",
+                descriptionC:"",
+                status:""
+            },
+            //选择框
+            options:[{
+                value:'5',
+                label:"超级棒"
+            },{
+                label:"挺好的",
+                value:'4'
+            },{
+                label:"一般",
+                value:'3'
+            },{
+                label:"勉强",
+                value:'2'
+            },{
+                label:"很差",
+                value:'1'
+            }],
+
+            //tableData
+                tableData1:[{
+                    id:"1",
+                    produceBrandOrderName:"华为",
+                    companyOrderName:"华为科技有限公司",
+                    ordered:"1",
+                    price:"50"
+                }],
+                tableData2:[{
+                    id:"1",
+                    produceBrandOrderName:"华为",
+                    companyOrderName:"华为科技有限公司",
+                    ordered:"1",
+                    price:"50",
+                    star:"5",
+                    evaluation: "超级棒"
+                }]
+            }
+        }
+    })
+
+</script>
+
+</body>
+</html>

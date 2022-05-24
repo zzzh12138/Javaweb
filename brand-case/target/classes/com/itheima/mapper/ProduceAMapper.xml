@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.ProduceAMapper">
+
+    <resultMap id="aResultMap" type="produceA">
+        <result property="produceBrandAName" column="produce_brand_a_name" />
+        <result property="companyAName" column="company_a_name" />
+    </resultMap>
+
+    <delete id="deleteByIds">
+        delete from sell_a where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectByPageAndCondition" resultMap="aResultMap">
+        select * from sell_a
+        <where>
+        <if test="produceA.produceBrandAName!=null and produceA.produceBrandAName!=''">
+            and produce_brand_a_name like #{produceA.produceBrandAName}
+        </if>
+
+        <if test="produceA.companyAName!=null and produceA.companyAName!=''">
+            and company_a_name like #{produceA.companyAName}
+        </if>
+
+        <if test="produceA.status!=null ">
+            and status=#{produceA.status}
+        </if>
+        </where>
+        limit #{begin},#{size}
+    </select>
+    <select id="selectTotalCountByCondition" resultType="java.lang.Integer">
+        select count(*) from sell_a
+        <where>
+            <if test="produceBrandAName!=null and produceBrandAName!=''">
+                and produce_brand_a_name like #{produceBrandAName}
+            </if>
+
+            <if test="companyAName!=null and companyAName!=''">
+                and company_a_name like #{companyAName}
+            </if>
+
+            <if test="status!=null ">
+                and status=#{status}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectConsumerByPageAndCondition" resultMap="aResultMap">
+        select * from sell_a
+        <where>
+            <if test="produceA.produceBrandAName!=null and produceA.produceBrandAName!=''">
+                and produce_brand_a_name like #{produceA.produceBrandAName}
+            </if>
+
+            <if test="produceA.companyAName!=null and produceA.companyAName!=''">
+                and company_a_name like #{produceA.companyAName}
+            </if>
+
+            <if test="produceA.price!=null ">
+                and price=#{produceA.price}
+            </if>
+        </where>
+        limit #{begin},#{size}
+    </select>
+
+    <select id="selectConsumerTotalCountByCondition" resultType="java.lang.Integer">
+        select count(*) from sell_a
+        <where>
+            <if test="produceBrandAName!=null and produceBrandAName!=''">
+                and produce_brand_a_name like #{produceBrandAName}
+            </if>
+
+            <if test="companyAName!=null and companyAName!=''">
+                and company_a_name like #{companyAName}
+            </if>
+
+            <if test="price!=null ">
+                and price=#{price}
+            </if>
+        </where>
+    </select>
+</mapper>

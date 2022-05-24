@@ -1,0 +1,16 @@
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:33 +0800] "GET /brand-case/login.jsp HTTP/1.1" 200 1313 http-bio-8080-exec-2 109
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:33 +0800] "GET /brand-case/css/login.css HTTP/1.1" 200 1934 http-bio-8080-exec-3 39
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:33 +0800] "GET /brand-case/imgs/Desert1.jpg HTTP/1.1" 200 1631571 http-bio-8080-exec-4 151
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:33 +0800] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-5 0
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:33 +0800] "GET /brand-case/login.jsp HTTP/1.1" 200 1313 http-bio-8080-exec-6 2
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:42 +0800] "GET /brand-case/loginServlet HTTP/1.1" 200 1337 http-bio-8080-exec-7 1114
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:42 +0800] "POST /brand-case/loginServlet HTTP/1.1" 302 - http-bio-8080-exec-1 1108
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:42 +0800] "GET /brand-case/brand.html HTTP/1.1" 200 27698 http-bio-8080-exec-9 26
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:43 +0800] "GET /brand-case/js/vue.js HTTP/1.1" 304 - http-bio-8080-exec-8 28
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:43 +0800] "GET /brand-case/js/axios-0.18.0.js HTTP/1.1" 200 12914 http-bio-8080-exec-3 22
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:43 +0800] "GET /brand-case/element-ui/lib/index.js HTTP/1.1" 304 - http-bio-8080-exec-2 31
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:43 +0800] "GET /brand-case/element-ui/lib/theme-chalk/index.css HTTP/1.1" 304 - http-bio-8080-exec-10 57
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:43 +0800] "GET /brand-case/imgs/bgbrand.jpg HTTP/1.1" 200 256622 http-bio-8080-exec-10 29
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:43 +0800] "GET /brand-case/element-ui/lib/theme-chalk/fonts/element-icons.woff HTTP/1.1" 200 28200 http-bio-8080-exec-3 109
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:43 +0800] "POST /brand-case/user/user HTTP/1.1" 200 8 http-bio-8080-exec-2 219
+0:0:0:0:0:0:0:1 - - [23/Apr/2022:22:05:43 +0800] "POST /brand-case/produceA/selectByPage?currentPage=1&pageSize=5 HTTP/1.1" 200 1307 http-bio-8080-exec-10 285

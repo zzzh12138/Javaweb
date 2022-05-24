@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.ProduceCMapper">
+
+    <resultMap id="cResultMap" type="produceC">
+        <result property="produceBrandCName" column="produce_brand_c_name" />
+        <result property="companyCName" column="company_c_name" />
+    </resultMap>
+
+    <delete id="deleteByIds">
+        delete from sell_c where id in
+        <foreach collection="ids" item="id" separator="," close=")" open="(">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectServiceByPageAndCondition" resultMap="cResultMap">
+        select * from sell_c
+        <where>
+            <if test="produceC.produceBrandCName!=null and produceC.produceBrandCName!=''">
+                and produce_brand_c_name like #{produceC.produceBrandCName}
+            </if>
+
+            <if test="produceC.companyCName!=null and produceC.companyCName!=''">
+                and company_c_name like #{produceC.companyCName}
+            </if>
+
+        </where>
+        limit #{begin},#{size}
+    </select>
+
+    <select id="selectServiceTotalCountByCondition" resultType="java.lang.Integer">
+        select count(*) from sell_c
+        <where>
+            <if test="produceBrandCName!=null and produceBrandCName!=''">
+                and produce_brand_c_name like #{produceBrandCName}
+            </if>
+
+            <if test="companyCName!=null and companyCName!=''">
+                and company_c_name like #{companyCName}
+            </if>
+
+        </where>
+    </select>
+</mapper>

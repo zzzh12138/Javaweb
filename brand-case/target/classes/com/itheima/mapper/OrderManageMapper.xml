@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.OrderManageMapper">
+
+    <resultMap id="orderManageResultMap" type="orderManage">
+        <result property="produceBrandOrderName" column="produce_brand_order_name" />
+        <result property="companyOrderName" column="company_order_name" />
+    </resultMap>
+
+    <delete id="deleteByIds">
+        update  order_manage set status='1' where id in
+        <foreach collection="ids" item="id" separator="," close=")" open="(">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
